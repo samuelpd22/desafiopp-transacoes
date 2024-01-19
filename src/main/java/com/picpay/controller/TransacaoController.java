@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 
 @RestController
-@RequestMapping("/transferir")
+@RequestMapping("/transferir") // /transferir/enviar-dinheiro
 public class TransacaoController {
 
     @Autowired
@@ -23,7 +23,7 @@ public class TransacaoController {
 
     @PostMapping("/enviar-dinheiro")
     public ResponseEntity<String> enviarDinheiro(@RequestBody TransacaoDTO transacaoDTO) {
-        // Validações e lógica de negócios
+        // Validações
         UsuarioEntity usuario = usuarioRepository.findById(transacaoDTO.idUsuario()).orElse(null);
         LogistaEntity logista = logistaRepository.findById(transacaoDTO.idLogista()).orElse(null);
         
