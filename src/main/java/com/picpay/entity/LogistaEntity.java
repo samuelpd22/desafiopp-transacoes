@@ -38,7 +38,5 @@ public class LogistaEntity {
 
     private BigDecimal saldoDisponivel;
 
-    @Range(min = 1, max = 2, message = "(1) Para Usuario - (2) Para Logista.")
-    @NotNull
-    private int permissao; // 1 = Nivel usuario , 2 = Nivel Logista
+
 }

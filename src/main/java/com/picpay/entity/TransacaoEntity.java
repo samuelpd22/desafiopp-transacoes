@@ -1,9 +1,6 @@
-package com.picpay.entity.transacao;
+package com.picpay.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,15 +13,17 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table ( name = "tb_transacao")
+@Table ( name = "tbtransacao")
 public class TransacaoEntity {
 
-    @OneToOne
-    @JoinColumn(name = "tb_usuarios_id")
+    @Id
+    @GeneratedValue ( strategy = GenerationType.IDENTITY)
+    private Long id;
+
+
     private Long idUsuario;
 
-    @OneToOne
-    @JoinColumn(name = "tb_logista_id")
+
     private Long idLogista;
 
 
