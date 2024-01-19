@@ -9,6 +9,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -18,7 +19,9 @@ import java.util.Optional;
 public class LogistaController {
 
     @Autowired
-    LogistaRepository logistaRepository;
+    private LogistaRepository logistaRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping
     public ResponseEntity<?> listarTodos(){
@@ -27,8 +30,11 @@ public class LogistaController {
 
     @PostMapping
     public ResponseEntity<LogistaEntity> cadastrarUsuario(@RequestBody LogistaDTO logistaDTO){
-        LogistaEntity logistaEntity  = new LogistaEntity();
+        LogistaEntity logistaEntity = new LogistaEntity();
+
         BeanUtils.copyProperties(logistaDTO, logistaEntity);
+        String hashedPassword = passwordEncoder.encode(logistaEntity.getSenha());
+        logistaEntity.setSenha(hashedPassword);
         return new ResponseEntity<>(logistaRepository.save(logistaEntity),HttpStatus.CREATED);
     }
     @GetMapping ("/{id}")

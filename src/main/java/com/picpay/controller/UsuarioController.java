@@ -7,6 +7,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -16,7 +17,9 @@ import java.util.Optional;
 public class UsuarioController {
 
     @Autowired
-    UsuarioRepository usuarioRepository;
+    private UsuarioRepository usuarioRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping
     public ResponseEntity<?> listarTodos(){
@@ -27,6 +30,8 @@ public class UsuarioController {
     public ResponseEntity<UsuarioEntity> cadastrarUsuario(@RequestBody UsuarioDTO usuarioDTO){
         UsuarioEntity usuarioEntity = new UsuarioEntity();
         BeanUtils.copyProperties(usuarioDTO, usuarioEntity);
+        String hashedPassword = passwordEncoder.encode(usuarioEntity.getSenha());
+        usuarioEntity.setSenha(hashedPassword);
         return new ResponseEntity<>(usuarioRepository.save(usuarioEntity),HttpStatus.CREATED);
     }
     @GetMapping ("/{id}")
